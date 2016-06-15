@@ -36,6 +36,8 @@ class Server():
         self.conn_count = 0
         self.ban_mode = False
         self.is_black_list = False
+        self.tri_up=0
+        self.tri_down=0
 
         self.func_key = {
             'user': self.user,
@@ -163,6 +165,7 @@ class Server():
         data_sock.listen(1)
         data_fd, addr = data_sock.accept()
         buf = file.read(1024)
+        self.tri_down+=len(buf)
         while len(buf) != 0:
             data_fd.send(buf)
             buf = file.read(1024)
@@ -197,6 +200,7 @@ class Server():
         data_fd, addr = data_sock.accept()
         while True:
             buf = data_fd.recv(1024)
+            self.tri_up+=len(buf)
             if len(buf) != 0:
                 file.write(buf)
             else:
